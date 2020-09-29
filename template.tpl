@@ -14,7 +14,6 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "NativAds",
-  "categories": ["ADVERTISING"],
   "brand": {
     "id": "brand_dummy",
     "displayName": "NativAds by Kurio",
@@ -34,37 +33,52 @@ ___TEMPLATE_PARAMETERS___
     "type": "TEXT",
     "name": "pubId",
     "displayName": "Publisher ID",
-    "simpleValueType": true
+    "simpleValueType": true,
+    "notSetText": "Publisher ID must be set",
+    "help": "Ask our representative for your publisher id"
+  },
+  {
+    "type": "TEXT",
+    "name": "url",
+    "displayName": "URL",
+    "simpleValueType": true,
+    "defaultValue": "https://na.kurio.network/v1/na.js",
+    "valueHint": "https://na.kurio.network/v1/na.js",
+    "help": "Leave it as is: https://na.kurio.network/v1/na.js"
   }
 ]
 
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
-// Enter your template code here.
 const log = require('logToConsole');
 const queryPermission = require('queryPermission');
 const injectScript = require('injectScript');
 const setInWindow = require('setInWindow');
-const copyFromWindow = require('copyFromWindow');
 
-const url = 'https://na.kurio.network/v1/na.js';
+const url = data.url || 'https://na.kurio.network/v1/na.js';
 
 setInWindow('_na', {'pubId': data.pubId}, true);
 
-log('starting tag: nativads');
+log('_NA: Loading script from', url, 'with pubId =', data.pubId);
+
+const onSuccess = () => {
+  log('_NA: Script loaded successfully');
+  data.gtmOnSuccess();
+};
+
+const onFailure = () => {
+  log('_NA: Fail to load script');
+  data.gtmOnFailure();
+};
 
 if (queryPermission('inject_script', url)) {
-  log('injecting nativads script with pubId =', data.pubId);
-  injectScript(url);
+  injectScript(url, onSuccess, onFailure);
 } else {
-  log('no permission to inject nativads script');
+  log('_NA: Fail to load script - no permission');
+  data.gtmOnFailure();
 }
 
-log('window._na', copyFromWindow('_na'));
-
-// Call data.gtmOnSuccess when the tag is finished.
-data.gtmOnSuccess();
 
 
 ___WEB_PERMISSIONS___
@@ -81,7 +95,7 @@ ___WEB_PERMISSIONS___
           "key": "environments",
           "value": {
             "type": 1,
-            "string": "all"
+            "string": "debug"
           }
         }
       ]
@@ -106,6 +120,10 @@ ___WEB_PERMISSIONS___
               {
                 "type": 1,
                 "string": "https://ads.kurio.me/*"
+              },
+              {
+                "type": 1,
+                "string": "https://na.kurio.network/*"
               }
             ]
           }
@@ -188,6 +206,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 9/29/2020, 5:32:00 PM
+Created on 9/29/2020, 6:19:45 PM
 
 
