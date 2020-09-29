@@ -1,5 +1,5 @@
 homepage: "https://nativads.co"
 documentation: "https://github.com/nativads/nativads-gtm"
 versions:
-  - sha: 0de562e03b508c41eba755002d472c6aa7245a6b
+  - sha: c82a43c3f110b4559b96ce574079079a5e0576d0
     changeNotes: Initial release.
