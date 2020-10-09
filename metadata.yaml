@@ -3,3 +3,5 @@ documentation: "https://github.com/nativads/nativads-gtm"
 versions:
   - sha: c82a43c3f110b4559b96ce574079079a5e0576d0
     changeNotes: Initial release.
+  - sha: 2f08010c9fa797c1d22504723f001627b64c0415
+    changeNotes: Unparameterized URL
