@@ -14,6 +14,7 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "NativAds",
+  "categories": ["ADVERTISING"],
   "brand": {
     "id": "brand_dummy",
     "displayName": "NativAds by Kurio",
@@ -36,15 +37,6 @@ ___TEMPLATE_PARAMETERS___
     "simpleValueType": true,
     "notSetText": "Publisher ID must be set",
     "help": "Ask our representative for your publisher id"
-  },
-  {
-    "type": "TEXT",
-    "name": "url",
-    "displayName": "URL",
-    "simpleValueType": true,
-    "defaultValue": "https://na.kurio.network/v1/na.js",
-    "valueHint": "https://na.kurio.network/v1/na.js",
-    "help": "Leave it as is: https://na.kurio.network/v1/na.js"
   }
 ]
 
@@ -56,7 +48,7 @@ const queryPermission = require('queryPermission');
 const injectScript = require('injectScript');
 const setInWindow = require('setInWindow');
 
-const url = data.url || 'https://na.kurio.network/v1/na.js';
+const url = 'https://na.kurio.network/v1/na.js';
 
 setInWindow('_na', {'pubId': data.pubId}, true);
 
@@ -78,7 +70,6 @@ if (queryPermission('inject_script', url)) {
   log('_NA: Fail to load script - no permission');
   data.gtmOnFailure();
 }
-
 
 
 ___WEB_PERMISSIONS___
@@ -117,10 +108,6 @@ ___WEB_PERMISSIONS___
           "value": {
             "type": 2,
             "listItem": [
-              {
-                "type": 1,
-                "string": "https://ads.kurio.me/*"
-              },
               {
                 "type": 1,
                 "string": "https://na.kurio.network/*"
@@ -206,6 +193,6 @@ scenarios: []
 
 ___NOTES___
 
-Created on 9/29/2020, 6:19:45 PM
+Created on 9/29/2020, 9:54:12 PM
 
 
